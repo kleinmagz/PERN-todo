@@ -1,10 +1,13 @@
 import express from "express";
 import cors from "cors";
-import toDoRoutes from "./routes/todos.js"
+import toDoRoutes from "./routes/todos.js";
+import { configDotenv } from "dotenv";
 
+// loads .env file contents into process.env.
+configDotenv();
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // app.get("/about", (req, res) => {
 //    res.send("Hello World!");

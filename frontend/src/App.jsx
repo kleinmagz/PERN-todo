@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { MdModeEditOutline, MdOutlineDone } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import { API_URL } from "./api.js";
 import axios from "axios";
 
 export default function App() {
@@ -16,7 +17,7 @@ export default function App() {
     try {
       setIsLoading(true);
       setError(null);
-      const response = await axios.get("http://localhost:5000/todos");
+      const response = await axios.get(`${API_URL}/todos`);
       setTodos(response.data);
       console.log(response.data);
     } catch (err) {
@@ -36,7 +37,7 @@ export default function App() {
     if (!description.trim()) return;
     try {
       setError(null);
-      const res = await axios.post("http://localhost:5000/todos", {
+      const res = await axios.post(`${API_URL}/todos`, {
         description,
         completed: false,
       });
@@ -61,7 +62,7 @@ export default function App() {
         return;
       }
       const todo = todos.find((todo) => todo.todo_id === id);
-      await axios.put(`http://localhost:5000/todos/${id}`, {
+      await axios.put(`${API_URL}/todos/${id}`, {
         description: editedText,
         completed: !todo.completed,
       });
@@ -84,7 +85,7 @@ export default function App() {
   const deleteTodo = async (id) => {
     try {
       setError(null);
-      await axios.delete(`http://localhost:5000/todos/${id}`);
+      await axios.delete(`${API_URL}/todos/${id}`);
       setTodos(todos.filter((todo) => todo.todo_id !== id));
       // omited, probably to minimize database accesses.
       // getTodos();
@@ -98,7 +99,7 @@ export default function App() {
     try {
       setError(null);
       const todo = todos.find((todo) => todo.todo_id === id);
-      await axios.put(`http://localhost:5000/todos/${id}`, {
+      await axios.put(`${API_URL}/todos/${id}`, {
         description: todo.description,
         completed: !todo.completed,
       });
